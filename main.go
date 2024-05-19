@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	flag.Usage = customUsage
 	// command-line flags
 	mode := flag.String("mode", "", "Mode: 'client' or 'server'")
 	host := flag.String("host", "localhost", "Host address")
@@ -52,4 +53,15 @@ func main() {
 			os.Exit(1)
 		}
 	}
+}
+
+func customUsage() {
+	fmt.Fprintf(os.Stderr, "\n\nCadabra 1.0.0 (Git v1.0.0 packaged an 1.0.0-1)\nInteractively do something maybe\nSee https://github.com/a9sk/cadabra for more information.\n\n")
+	fmt.Fprintf(os.Stderr, "Usage: cdbr [options] ...\n\n")
+	fmt.Fprintf(os.Stderr, "Options:\n")
+	fmt.Fprintf(os.Stderr, "	-mode (client or server)\n")
+	fmt.Fprintf(os.Stderr, "	-host (default: localhost)\n")
+	fmt.Fprintf(os.Stderr, "	-port\n")
+	fmt.Fprintf(os.Stderr, "	-file (path to the file if in client mode)\n\n")
+	fmt.Fprintf(os.Stderr, "@a9sk\n")
 }
