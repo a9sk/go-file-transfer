@@ -21,7 +21,7 @@ func NewServer(port string) *Server {
 
 func (s *Server) ListenAndServe() error {
 	// use TLS certificates
-	cert, err := tls.LoadX509KeyPair("../certificates/server.crt", "../certificates/server.key")
+	cert, err := tls.LoadX509KeyPair("certificates/server.crt", "certificates/server.key")
 	if err != nil {
 		return fmt.Errorf("error loading certificates: %v", err)
 	}
