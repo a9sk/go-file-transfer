@@ -24,7 +24,7 @@ func (c *Client) Connect() (*tls.Conn, error) {
 	// connect
 	conn, err := tls.Dial("tcp", c.Host+":"+c.Port, &tls.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("error connecting to server: %v", err)
+		return nil, fmt.Errorf("%v", err)
 	}
 	return conn, nil
 }

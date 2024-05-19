@@ -21,7 +21,7 @@ func NewServer(port string) *Server {
 
 func (s *Server) ListenAndServe() error {
 	// use TLS certificates
-	cert, err := tls.LoadX509KeyPair("server.crt", "server.key")
+	cert, err := tls.LoadX509KeyPair("../certificates/server.crt", "../certificates/server.key")
 	if err != nil {
 		return fmt.Errorf("error loading certificates: %v", err)
 	}
@@ -32,19 +32,19 @@ func (s *Server) ListenAndServe() error {
 	}
 
 	// shhhhhhh, listen
-	listener, err := tls.Listen("tcp", ":"+s.Port, tlsConfig)
+	listener, err := tls.Listen("tcp", "localhost:"+s.Port, tlsConfig) //! CHANGE THE localhost: to only : WHEN PUBLISHING
 	if err != nil {
 		return fmt.Errorf("error starting server: %v", err)
 	}
 	defer listener.Close()
 
-	fmt.Println("Server started. Listening on port", s.Port)
+	fmt.Println("[*] Server started. Listening on port", s.Port)
 
 	// let others connect
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("Error accepting connection:", err)
+			fmt.Println("[!] Error accepting connection:", err)
 			continue
 		}
 
@@ -54,6 +54,7 @@ func (s *Server) ListenAndServe() error {
 }
 
 func (s *Server) handleConnection(conn net.Conn) {
+	fmt.Println("[debug] Someone connected")
 	defer conn.Close()
 	// add logic for receiving files, handling requests, etc.
 }
