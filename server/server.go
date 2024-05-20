@@ -47,7 +47,7 @@ func (s *Server) ListenAndServe() error {
 			fmt.Println("[!] Error accepting connection:", err)
 			continue
 		}
-
+		fmt.Println("[debug] someone connected")
 		// handle connections
 		go s.handleConnection(conn)
 	}
@@ -55,7 +55,7 @@ func (s *Server) ListenAndServe() error {
 
 func (s *Server) handleConnection(conn net.Conn) {
 	defer conn.Close()
-	fmt.Println("[debug] Someone connected")
+	fmt.Println("[debug] handling connection")
 
 	// loop to read data
 	for {
