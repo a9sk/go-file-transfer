@@ -54,9 +54,21 @@ func (s *Server) ListenAndServe() error {
 }
 
 func (s *Server) handleConnection(conn net.Conn) {
-	fmt.Println("[debug] Someone connected")
 	defer conn.Close()
-	// add logic for receiving files, handling requests, etc.
+	fmt.Println("[debug] Someone connected")
+
+	// loop to read data
+	for {
+		buffer := make([]byte, 1024) //create a buffer max size... //! Pay attention
+		_, err := conn.Read(buffer)
+		if err != nil {
+			fmt.Println("[!] Error reading from connection:", err)
+			return
+		}
+
+		// process the data...
+		fmt.Println("[*] Received data from client:", string(buffer))
+	}
 }
 
 // add methods for handling connections, receiving files, etc.
