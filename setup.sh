@@ -63,7 +63,7 @@ if [ ! -d "$INSTALL_DIR" ]; then
     exit 1
 fi
 
-mv cdbr "$INSTALL_DIR"
+sudo mv cdbr "$INSTALL_DIR"
 
 if [ $? -ne 0 ]; then
     echo "[!] Failed to move cdbr to $INSTALL_DIR"
