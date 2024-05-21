@@ -49,7 +49,7 @@ if ! command -v go &> /dev/null; then
     esac
 fi
 
-go build -o cdbr cmd/main.go
+go build -o cdbr main.go
 
 if [ $? -ne 0 ]; then
     echo "[!] Build failed"
