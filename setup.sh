@@ -8,6 +8,14 @@ install_go_redhat() {
     sudo yum install -y golang
 }
 
+install_go_fedora() {
+    sudo dnf install -y golang
+}
+
+install_go_arch() {
+    sudo pacman -Syu --noconfirm go
+}
+
 install_go_macos() {
     brew install golang
 }
@@ -20,10 +28,14 @@ if ! command -v go &> /dev/null; then
     case $install_go in
         [Yy]* )
             if [ "$(uname)" == "Linux" ]; then
-                if [ -f "/etc/lsb-release" ]; then
+                if command -v apt-get &> /dev/null; then
                     install_go_debian
-                elif [ -f "/etc/redhat-release" ]; then
+                elif command -v yum &> /dev/null; then
                     install_go_redhat
+                elif command -v dnf &> /dev/null; then
+                    install_go_fedora
+                elif command -v pacman &> /dev/null; then
+                    install_go_arch    
                 else
                     echo "[!] Your Linux distribution is not supported. Please install Go manually."; sleep 1; echo "[*] Exiting..."; exit 1
                 fi

@@ -22,7 +22,7 @@ func NewClient(host, port string) *Client {
 
 func (c *Client) Connect() (*tls.Conn, error) {
 	tlsConfig := &tls.Config{
-		InsecureSkipVerify: true, // Skip certificate verification
+		InsecureSkipVerify: true, // skip certificate verification //! unsafe but who cares
 	}
 	// connect
 	conn, err := tls.Dial("tcp", c.Host+":"+c.Port, tlsConfig)
@@ -35,7 +35,8 @@ func (c *Client) Connect() (*tls.Conn, error) {
 		conn.Close()
 		return nil, err
 	}
-
+	fmt.Println("[debug] Now it is time to open a shell to interact with the server")
+	// open the shell here
 	return conn, nil
 }
 

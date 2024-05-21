@@ -14,6 +14,7 @@ type Server struct {
 }
 
 func NewServer(port string) *Server {
+	// add check to see if a service is already on on this port...
 	return &Server{
 		Port: port,
 	}
