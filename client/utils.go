@@ -47,6 +47,10 @@ func FileTransfer(conn *tls.Conn) error {
 	for {
 		fmt.Scanln(&userInput)
 		arrayUserInput := strings.Split(userInput, " ")
+		if len(arrayUserInput) < 2 {
+			fmt.Println("[!] Insufficient arguments. Please use 'send <file>' or 'get <file>'.")
+			continue
+		}
 		/*
 			switch arrayUserInput[0] {
 			case "send":
@@ -60,7 +64,10 @@ func FileTransfer(conn *tls.Conn) error {
 		*/
 		if arrayUserInput[0] == "send" {
 			fmt.Println("[*] Seems like you are trying to send a file to the server...")
-			sendFilesToServer(arrayUserInput[1], conn)
+			err := sendFilesToServer(arrayUserInput[1], conn)
+			if err != nil {
+				fmt.Printf("[!] Error sending file: %s\n", err)
+			}
 		} else if arrayUserInput[0] == "get" {
 			fmt.Println("[*] Seems like you are trying to get a file from the server...")
 		} else {
