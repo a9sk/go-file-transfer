@@ -42,18 +42,28 @@ func VerifyServerCertificate(conn *tls.Conn) error {
 
 func FileTransfer(conn *tls.Conn) error {
 	fmt.Println("[debug] FileTransfer is cool func")
-	fmt.Println("[*] Insert 'send' if you want to send a file to the server, insert 'get' to get a file from the server:")
+	fmt.Println("[*] Insert 'send <file>' if you want to send a file to the server, insert 'get <file>' to get a file from the server:")
 	var userInput string
 	for {
 		fmt.Scanln(&userInput)
 		arrayUserInput := strings.Split(userInput, " ")
-		switch arrayUserInput[0] {
-		case "send":
+		/*
+			switch arrayUserInput[0] {
+			case "send":
+				fmt.Println("[*] Seems like you are trying to send a file to the server...")
+				sendFilesToServer(arrayUserInput[1], conn)
+			case "get":
+				fmt.Println("[*] Seems like you are trying to get a file from the server...")
+			default:
+				fmt.Println("[!] Invalid syntax, insert 'send' or 'get' to send or get files to or from the server")
+			}
+		*/
+		if arrayUserInput[0] == "send" {
 			fmt.Println("[*] Seems like you are trying to send a file to the server...")
 			sendFilesToServer(arrayUserInput[1], conn)
-		case "get":
+		} else if arrayUserInput[0] == "get" {
 			fmt.Println("[*] Seems like you are trying to get a file from the server...")
-		default:
+		} else {
 			fmt.Println("[!] Invalid syntax, insert 'send' or 'get' to send or get files to or from the server")
 		}
 	}
