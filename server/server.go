@@ -33,7 +33,9 @@ func (s *Server) ListenAndServe() error {
 	}
 
 	// shhhhhhh, listen
-	listener, err := tls.Listen("tcp", "192.168.1.9:"+s.Port, tlsConfig) //! CHANGE THE host to only : WHEN PUBLISHING
+	//listener, err := tls.Listen("tcp", "192.168.1.9:"+s.Port, tlsConfig) //! CHANGE THE host to only : WHEN PUBLISHING
+	listener, err := tls.Listen("tcp", "localhost:"+s.Port, tlsConfig)
+	//listener, err := tls.Listen("tcp", ":"+s.Port, tlsConfig)
 	if err != nil {
 		return fmt.Errorf("error starting server: %v", err)
 	}

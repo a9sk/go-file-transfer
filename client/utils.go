@@ -3,7 +3,10 @@ package client
 import (
 	"crypto/tls"
 	"fmt"
+	"strings"
 )
+
+const BUFFER_SIZE = 1024 //! might want to change the buffer size...
 
 func VerifyServerCertificate(conn *tls.Conn) error {
 	fmt.Println("[debug] We also got here ggs")
@@ -33,4 +36,23 @@ func VerifyServerCertificate(conn *tls.Conn) error {
 	fmt.Println("[*] Best case, Server's certificate is signed by a trusted CA ;)")
 
 	return nil
+}
+
+func FileTransfer(conn *tls.Conn) error {
+	fmt.Println("[debug] FileTransfer is cool func")
+	fmt.Println("[*] Insert 'send' if you want to send a file to the server, insert 'get' to get a file from the server:")
+	var userInput string
+	for {
+		fmt.Scanln(&userInput)
+		arrayUserInput := strings.Split(userInput, " ")
+		switch arrayUserInput[0] {
+		case "send":
+			fmt.Println("[*] Seems like you are trying to send a file to the server...")
+
+		case "get":
+			fmt.Println("[*] Seems like you are trying to get a file from the server...")
+		default:
+			fmt.Println("[!] Invalid syntax, insert 'send' or 'get' to send or get files to or from the server")
+		}
+	}
 }

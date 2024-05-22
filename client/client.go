@@ -36,7 +36,8 @@ func (c *Client) Connect() (*tls.Conn, error) {
 		return nil, err
 	}
 	fmt.Println("[debug] Now it is time to open a shell to interact with the server")
-	// open the shell here
+	FileTransfer(conn)
+
 	return conn, nil
 }
 
