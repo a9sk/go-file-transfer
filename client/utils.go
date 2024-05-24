@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bufio"
 	"crypto/tls"
 	"fmt"
 	"io"
@@ -43,14 +44,21 @@ func VerifyServerCertificate(conn *tls.Conn) error {
 func FileTransfer(conn *tls.Conn) error {
 	fmt.Println("[debug] FileTransfer is cool func")
 	fmt.Println("[*] Insert 'send <file>' if you want to send a file to the server, insert 'get <file>' to get a file from the server:")
-	var userInput string
 	for {
-		fmt.Scanln(&userInput)
-		arrayUserInput := strings.Split(userInput, " ")
+		/*
+			fmt.Scan(&userInput)
+			fmt.Println("[debug] The user input is: " + userInput)
+			//userInput = strings.TrimSpace(userInput) //! removes stuff which might be bad for the split, idk
+		*/
+		reader := bufio.NewReader(os.Stdin)
+		userInput, _ := reader.ReadString('\n')
+		arrayUserInput := strings.Fields(userInput)
+		fmt.Println("[debug] The array is split in: ", len(arrayUserInput))
 		if len(arrayUserInput) < 2 {
 			fmt.Println("[!] Insufficient arguments. Please use 'send <file>' or 'get <file>'.")
 			continue
 		}
+
 		/*
 			switch arrayUserInput[0] {
 			case "send":
@@ -84,7 +92,7 @@ func sendFilesToServer(fileName string, conn *tls.Conn) error {
 	// imagine sending a non existing file...
 	_, err := os.Stat(strings.TrimSpace(fileName))
 	if os.IsNotExist(err) {
-		conn.Write([]byte("-1"))
+		conn.Write([]byte("-1")) //shows to the server that you are a noob
 		return fmt.Errorf("[!] The file does not exist")
 	}
 
