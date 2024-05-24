@@ -83,9 +83,9 @@ func (s *Server) handleConnection(conn net.Conn) error {
 
 		switch command {
 		case "send":
-			GetFileFromClient(fileName, conn)
+			getFilesFromClient(fileName, conn)
 		case "get":
-
+			sendFilesToClient(fileName, conn)
 		default:
 			return fmt.Errorf("[???] How did you even manage to get this error???")
 		}
@@ -94,5 +94,3 @@ func (s *Server) handleConnection(conn net.Conn) error {
 		fmt.Println("[debug] Received data from client:", string(buffer))
 	}
 }
-
-// add methods for handling connections, receiving files, etc.
