@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const BUFFER_SIZE = 1024 //! might want to change the buffer size...
+const BUFFER_SIZE = 4000 //! might want to change the buffer size...
 
 func VerifyServerCertificate(conn *tls.Conn) error {
 	fmt.Println("[debug] We also got here ggs")
