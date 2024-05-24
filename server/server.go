@@ -6,7 +6,10 @@ import (
 	"crypto/tls"
 	"fmt"
 	"net"
+	"strings"
 )
+
+const BUFFER_SIZE = 4000
 
 type Server struct {
 	Port string
@@ -14,7 +17,7 @@ type Server struct {
 }
 
 func NewServer(port string) *Server {
-	// add check to see if a service is already on on this port...
+	//! add check to see if a service is already on on this port...
 	return &Server{
 		Port: port,
 	}
@@ -53,24 +56,42 @@ func (s *Server) ListenAndServe() error {
 		fmt.Println("[debug] someone connected")
 		// handle connections
 		go s.handleConnection(conn)
+		// should use a whole own thread if i understood it right
 	}
 }
 
-func (s *Server) handleConnection(conn net.Conn) {
+func (s *Server) handleConnection(conn net.Conn) error {
 	defer conn.Close()
 	fmt.Println("[debug] handling connection")
 
 	// loop to read data
 	for {
-		buffer := make([]byte, 1024) //create a buffer max size... //! Pay attention
-		_, err := conn.Read(buffer)
+		buffer := make([]byte, BUFFER_SIZE) //create a buffer max size... //! Pay attention
+		l, err := conn.Read(buffer)
 		if err != nil {
-			fmt.Println("[!] Error reading from connection:", err)
-			return
+			return fmt.Errorf("[!] Error reading from connection: %v", err)
+		}
+
+		receivedMessage := string(buffer[:l])
+		fields := strings.Fields(receivedMessage)
+		if len(fields) < 2 {
+			return fmt.Errorf("[!] There should only be 2 fields")
+		}
+
+		command := fields[0]
+		fileName := fields[1]
+
+		switch command {
+		case "send":
+			GetFileFromClient(fileName, conn)
+		case "get":
+
+		default:
+			return fmt.Errorf("[???] How did you even manage to get this error???")
 		}
 
 		// process the data...
-		fmt.Println("[*] Received data from client:", string(buffer))
+		fmt.Println("[debug] Received data from client:", string(buffer))
 	}
 }
 
