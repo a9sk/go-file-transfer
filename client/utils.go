@@ -85,17 +85,33 @@ func FileTransfer(conn *tls.Conn) error {
 }
 
 func sendFilesToServer(fileName string, conn *tls.Conn) error {
-	defer conn.Close()
+	/*
+		defer conn.Close()
 
-	fileBuffer := make([]byte, BUFFER_SIZE)
+		fileBuffer := make([]byte, BUFFER_SIZE)
+
+		_, err = conn.Write([]byte("send " + fileName))
+		if err != nil {
+			return fmt.Errorf("[!] Could not write the connection bytes")
+		}
+
+		// read the file buffer and send it until it "exists"
+		for {
+			n, err := file.Read(fileBuffer)
+			if err != nil && err != io.EOF {
+				return fmt.Errorf("[!] Cannot read the filebufffer")
+			}
+			if n == 0 {
+				break
+			}
+			_, err = conn.Write(fileBuffer[:n])
+			if err != nil {
+				return fmt.Errorf("[!] Impossible to write the filebuffer")
+			}
+		}
+	*/
 
 	// imagine sending a non existing file...
-	_, err := os.Stat(strings.TrimSpace(fileName))
-	if os.IsNotExist(err) {
-		conn.Write([]byte("-1")) //shows to the server that you are a noob
-		return fmt.Errorf("[!] The file does not exist")
-	}
-
 	file, err := os.Open(strings.TrimSpace(fileName))
 	if err != nil {
 		conn.Write([]byte("-1"))
@@ -108,19 +124,13 @@ func sendFilesToServer(fileName string, conn *tls.Conn) error {
 		return fmt.Errorf("[!] Could not write the connection bytes")
 	}
 
-	// read the file buffer and send it until it "exists"
-	for {
-		n, err := file.Read(fileBuffer)
-		if err != nil && err != io.EOF {
-			return fmt.Errorf("[!] Cannot read the filebufffer")
-		}
-		if n == 0 {
-			break
-		}
-		_, err = conn.Write(fileBuffer[:n])
-		if err != nil {
-			return fmt.Errorf("[!] Impossible to write the filebuffer")
-		}
+	// to copy file to the connection w-out buffer strange stuff
+	n, err := io.Copy(conn, file)
+	if err != nil {
+		return fmt.Errorf("[!] Error while copying file contents: %v", err)
 	}
+
+	fmt.Printf("[*] %d bytes sent", n)
+
 	return nil
 }
