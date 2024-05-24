@@ -74,11 +74,15 @@ func FileTransfer(conn *tls.Conn) error {
 			fmt.Println("[*] Seems like you are trying to send a file to the server...")
 			err := sendFilesToServer(arrayUserInput[1], conn)
 			if err != nil {
-				fmt.Printf("[!] Error sending file: %s\n", err)
+				return fmt.Errorf("[!] Error sending file: %s", err)
 			}
 			break
 		} else if arrayUserInput[0] == "get" {
 			fmt.Println("[*] Seems like you are trying to get a file from the server...")
+			err := getFilesFromServer(arrayUserInput[1], conn)
+			if err != nil {
+				return fmt.Errorf("[!] Error getting file: %s", err)
+			}
 			break
 		} else {
 			fmt.Println("[!] Invalid syntax, insert 'send' or 'get' to send or get files to or from the server")
@@ -134,6 +138,43 @@ func sendFilesToServer(fileName string, conn *tls.Conn) error {
 	}
 
 	fmt.Printf("[*] %d bytes sent", n)
+
+	return nil
+}
+
+func getFilesFromServer(fileName string, conn *tls.Conn) error {
+	conn.Write([]byte("get " + fileName))
+
+	// this legit is the same code the server uses...
+
+	buffer := make([]byte, BUFFER_SIZE)
+	l, err := conn.Read(buffer)
+	if err != nil {
+		return fmt.Errorf("[!] Error reading from connection: %v", err)
+	}
+	fmt.Println("[debug] Received data from server:", string(buffer))
+	recivedName := string(buffer[:l])
+
+	if fileName == recivedName {
+		fmt.Println("[debug] filename sent correctly")
+		//file, err := os.Create(fileName)
+		file, err := os.Create("new" + fileName) //! so i do not have problems with doubly named files...
+		if err != nil {
+			return fmt.Errorf("[!] Impossible to create the file: %v", err)
+		}
+		defer file.Close()
+		fmt.Println("[debug] 1")
+		n, err := io.Copy(file, conn)
+		if err != nil {
+			return fmt.Errorf("[!] Something went wrong while copying the file: %v", err)
+		}
+		fmt.Print("[debug] 2")
+		fmt.Printf("[*] Received %d bytes and saved to %s", n, fileName)
+
+		conn.Close()
+	} else {
+		return fmt.Errorf("[!] The server returned a different file from the one you asked: %s", recivedName)
+	}
 
 	return nil
 }
