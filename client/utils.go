@@ -76,12 +76,15 @@ func FileTransfer(conn *tls.Conn) error {
 			if err != nil {
 				fmt.Printf("[!] Error sending file: %s\n", err)
 			}
+			break
 		} else if arrayUserInput[0] == "get" {
 			fmt.Println("[*] Seems like you are trying to get a file from the server...")
+			break
 		} else {
 			fmt.Println("[!] Invalid syntax, insert 'send' or 'get' to send or get files to or from the server")
 		}
 	}
+	return nil
 }
 
 func sendFilesToServer(fileName string, conn *tls.Conn) error {
