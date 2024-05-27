@@ -27,7 +27,6 @@ To install Cadabra, follow this steps:
             -mode (client or server)
             -host (default: localhost)
             -port
-            -file (path to the file if in client mode)
 
 ### Generate TLS certificates
 
@@ -46,7 +45,7 @@ NOTE: It is recommended to change the certificates when changing the server, but
    cdbr -mode server -host localhost -port 2222
 ```
 
-#### Example of localhost client connection command (no file sent):
+#### Example of localhost client connection command:
 ```bash
    cdbr -mode client -host localhost -port 2222
 ```
@@ -59,5 +58,5 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 
 To report bugs, request new features, or ask questions, contact the project author:
 
-- Email: 920a9sk765@proton.me
+- Email: 920a9sk42f76c765@proton.me
 - GitHub: [@a9sk](https://github.com/a9sk)
