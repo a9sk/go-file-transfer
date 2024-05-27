@@ -1,5 +1,3 @@
-// client/client.go
-
 package client
 
 import (
@@ -10,7 +8,6 @@ import (
 type Client struct {
 	Host string
 	Port string
-	// client-specific stuff and configurations should go here
 }
 
 func NewClient(host, port string) *Client {
@@ -22,7 +19,7 @@ func NewClient(host, port string) *Client {
 
 func (c *Client) Connect() (*tls.Conn, error) {
 	tlsConfig := &tls.Config{
-		InsecureSkipVerify: true, // skip certificate verification //! unsafe but who cares
+		InsecureSkipVerify: true, // skip certificate verification
 	}
 	// connect
 	conn, err := tls.Dial("tcp", c.Host+":"+c.Port, tlsConfig)
@@ -40,5 +37,3 @@ func (c *Client) Connect() (*tls.Conn, error) {
 
 	return conn, nil
 }
-
-// other methods for sending files, handling responses, etc.
