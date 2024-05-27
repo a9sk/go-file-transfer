@@ -1,5 +1,3 @@
-// main.go
-
 package main
 
 import (
@@ -17,7 +15,6 @@ func main() {
 	mode := flag.String("mode", "", "Mode: 'client' or 'server'")
 	host := flag.String("host", "localhost", "Host address")
 	port := flag.String("port", "8080", "Port number")
-	// filePath := flag.String("file", "", "File path (client mode)")
 	flag.Parse()
 
 	// validation
