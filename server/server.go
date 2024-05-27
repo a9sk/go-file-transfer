@@ -1,5 +1,3 @@
-// server/server.go
-
 package server
 
 import (
@@ -13,11 +11,9 @@ const BUFFER_SIZE = 4000
 
 type Server struct {
 	Port string
-	// fields and configs
 }
 
 func NewServer(port string) *Server {
-	//! add check to see if a service is already on on this port...
 	return &Server{
 		Port: port,
 	}
@@ -36,9 +32,7 @@ func (s *Server) ListenAndServe() error {
 	}
 
 	// shhhhhhh, listen
-	//listener, err := tls.Listen("tcp", "192.168.1.9:"+s.Port, tlsConfig) //! CHANGE THE host to only : WHEN PUBLISHING
-	listener, err := tls.Listen("tcp", "localhost:"+s.Port, tlsConfig)
-	//listener, err := tls.Listen("tcp", ":"+s.Port, tlsConfig)
+	listener, err := tls.Listen("tcp", ":"+s.Port, tlsConfig)
 	if err != nil {
 		return fmt.Errorf("error starting server: %v", err)
 	}
@@ -66,7 +60,7 @@ func (s *Server) handleConnection(conn net.Conn) error {
 
 	// loop to read data
 	for {
-		buffer := make([]byte, BUFFER_SIZE) //create a buffer max size... //! Pay attention
+		buffer := make([]byte, BUFFER_SIZE)
 		l, err := conn.Read(buffer)
 		if err != nil {
 			return fmt.Errorf("[!] Error reading from connection: %v", err)
@@ -91,7 +85,6 @@ func (s *Server) handleConnection(conn net.Conn) error {
 			return fmt.Errorf("[???] How did you even manage to get this error???")
 		}
 
-		// process the data...
 		conn.Close()
 	}
 }

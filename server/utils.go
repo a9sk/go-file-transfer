@@ -11,8 +11,7 @@ import (
 func getFilesFromClient(fileName string, conn net.Conn) error {
 	defer conn.Close()
 	// try n create a file on the server
-	//file, err := os.Create(fileName)
-	file, err := os.Create("new" + fileName) //! so i do not have problems with doubly named files...
+	file, err := os.Create("cdbr." + fileName)
 	if err != nil {
 		return fmt.Errorf("[!] Impossible to create the file: %v", err)
 	}
