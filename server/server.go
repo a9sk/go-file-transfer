@@ -47,7 +47,7 @@ func (s *Server) ListenAndServe() error {
 			fmt.Println("[!] Error accepting connection:", err)
 			continue
 		}
-		fmt.Println("[debug] someone connected")
+		//fmt.Println("[debug] someone connected")
 		// handle connections
 		go s.handleConnection(conn)
 		// should use a whole own thread if i understood it right
@@ -56,7 +56,7 @@ func (s *Server) ListenAndServe() error {
 
 func (s *Server) handleConnection(conn net.Conn) error {
 	defer conn.Close()
-	fmt.Println("[debug] handling connection")
+	//fmt.Println("[debug] handling connection")
 
 	// loop to read data
 	for {
@@ -78,7 +78,7 @@ func (s *Server) handleConnection(conn net.Conn) error {
 		switch command {
 		case "send":
 			getFilesFromClient(fileName, conn)
-			fmt.Println("[debug] Received data from client:", string(buffer))
+			//fmt.Println("[debug] Received data from client:", string(buffer))
 		case "get":
 			sendFilesToClient(fileName, conn)
 		default:

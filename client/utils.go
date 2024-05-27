@@ -12,7 +12,7 @@ import (
 const BUFFER_SIZE = 4000 //! might want to change the buffer size...
 
 func VerifyServerCertificate(conn *tls.Conn) error {
-	fmt.Println("[debug] We also got here ggs")
+	//fmt.Println("[debug] We also got here ggs")
 	// check if certificate is provided
 	if len(conn.ConnectionState().PeerCertificates) == 0 {
 		return fmt.Errorf("server did not provide a certificate")
@@ -42,13 +42,13 @@ func VerifyServerCertificate(conn *tls.Conn) error {
 }
 
 func FileTransfer(conn *tls.Conn) error {
-	fmt.Println("[debug] FileTransfer is cool func")
+	//fmt.Println("[debug] FileTransfer is cool func")
 	fmt.Println("[*] Insert 'send <file>' if you want to send a file to the server, insert 'get <file>' to get a file from the server:")
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		userInput, _ := reader.ReadString('\n')
 		arrayUserInput := strings.Fields(userInput)
-		fmt.Println("[debug] The array is split in: ", len(arrayUserInput))
+		//fmt.Println("[debug] The array is split in: ", len(arrayUserInput))
 		if len(arrayUserInput) < 2 {
 			fmt.Println("[!] Insufficient arguments. Please use 'send <file>' or 'get <file>'.")
 			continue
@@ -109,22 +109,22 @@ func getFilesFromServer(fileName string, conn *tls.Conn) error {
 	if err != nil {
 		return fmt.Errorf("[!] Error reading from connection: %v", err)
 	}
-	fmt.Println("[debug] Received data from server:", string(buffer))
+	//fmt.Println("[debug] Received data from server:", string(buffer))
 	recivedName := string(buffer[:l])
 
 	if fileName == recivedName {
-		fmt.Println("[debug] filename sent correctly")
+		//fmt.Println("[debug] filename sent correctly")
 		file, err := os.Create("cdbr." + fileName) // to recognize them
 		if err != nil {
 			return fmt.Errorf("[!] Impossible to create the file: %v", err)
 		}
 		defer file.Close()
-		fmt.Println("[debug] 1")
+		//fmt.Println("[debug] 1")
 		n, err := io.Copy(file, conn)
 		if err != nil {
 			return fmt.Errorf("[!] Something went wrong while copying the file: %v", err)
 		}
-		fmt.Print("[debug] 2")
+		//fmt.Print("[debug] 2")
 		fmt.Printf("[*] Received %d bytes and saved to %s", n, fileName)
 
 		conn.Close()

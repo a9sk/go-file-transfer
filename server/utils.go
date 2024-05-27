@@ -22,7 +22,7 @@ func getFilesFromClient(fileName string, conn net.Conn) error {
 		return fmt.Errorf("[!] Something went wrong while copying the file: %v", err)
 	}
 
-	fmt.Printf("[*] Received %d bytes and saved to %s\n", n, fileName)
+	fmt.Printf("[*] Received %d bytes and saved to %s\n", n, "cdbr."+fileName)
 
 	conn.Close()
 	return nil
@@ -47,7 +47,7 @@ func sendFilesToClient(fileName string, conn net.Conn) error {
 		return fmt.Errorf("[!] Error while copying file contents: %v", err)
 	}
 
-	fmt.Printf("[debug] %d bytes sent", n)
+	fmt.Printf("[*] %d bytes sent", n) //should be a debug maybe???
 
 	return nil
 }

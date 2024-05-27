@@ -26,13 +26,13 @@ func (c *Client) Connect() (*tls.Conn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
-	fmt.Println("[debug] We did get here eventually")
+	//fmt.Println("[debug] We did get here eventually")
 	if err := VerifyServerCertificate(conn); err != nil {
 		fmt.Println("[!] Closing the connection...")
 		conn.Close()
 		return nil, err
 	}
-	fmt.Println("[debug] Now it is time to open a shell to interact with the server")
+	//fmt.Println("[debug] Now it is time to open a shell to interact with the server")
 	FileTransfer(conn)
 
 	return conn, nil
