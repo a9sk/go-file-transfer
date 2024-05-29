@@ -51,3 +51,23 @@ func sendFilesToClient(fileName string, conn net.Conn) error {
 
 	return nil
 }
+
+func trustClient(conn net.Conn) error {
+	var ip string = conn.RemoteAddr().String()
+	fmt.Printf("[?] Someone is trying to connect, their ip is: %s, do you want to accept the connection? (y/n)\n", ip)
+	var resp string
+
+	for {
+		fmt.Scanln(&resp)
+		switch resp {
+		case "y":
+			fmt.Println("[*] Proceeding with the connection...")
+			return nil
+		case "n":
+			fmt.Println("[*] Closing the connection...")
+			return fmt.Errorf("connection aborted by server")
+		default:
+			fmt.Println("[*] Please enter 'y' or 'n'")
+		}
+	}
+}

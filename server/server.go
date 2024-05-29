@@ -32,7 +32,7 @@ func (s *Server) ListenAndServe() error {
 	}
 
 	// shhhhhhh, listen
-	listener, err := tls.Listen("tcp", ":"+s.Port, tlsConfig)
+	listener, err := tls.Listen("tcp", "localhost:"+s.Port, tlsConfig)
 	if err != nil {
 		return fmt.Errorf("error starting server: %v", err)
 	}
@@ -58,6 +58,11 @@ func (s *Server) handleConnection(conn net.Conn) error {
 	defer conn.Close()
 	//fmt.Println("[debug] handling connection")
 
+	// do we really want to trust the client??? i wouldn't
+	untrust := trustClient(conn)
+	if untrust != nil {
+		return fmt.Errorf("[!] Client not trusted from the server: %v", untrust)
+	}
 	// loop to read data
 	for {
 		buffer := make([]byte, BUFFER_SIZE)
