@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"cadabra/client"
-	"cadabra/server"
+	"go-file-transfer/client"
+	"go-file-transfer/server"
 )
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 }
 
 func customUsage() {
-	fmt.Fprintf(os.Stderr, "\n\nCadabra 1.0.0 (Git v1.0.0 packaged an 1.0.0-1)\nInteractively do something maybe\nSee https://github.com/a9sk/cadabra for more information.\n\n")
+	fmt.Fprintf(os.Stderr, "\nGo-File-Transfer 1.0.0 (Git v1.0.0 packaged an 1.0.0-1)\nInteractively do something maybe\nSee https://github.com/a9sk/go-file-transfer for more information.\n\n")
 	fmt.Fprintf(os.Stderr, "Usage: cdbr [options] ...\n\n")
 	fmt.Fprintf(os.Stderr, "Options:\n")
 	fmt.Fprintf(os.Stderr, "	-mode (client or server)\n")
