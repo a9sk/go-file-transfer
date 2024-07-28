@@ -1,18 +1,18 @@
-# Cadabra
+# Go File Transfer
 
 Secure File Transfer in Golang (project used to learn Go, i have never used it before)
 
 ## Installation
 
-To install Cadabra, follow this steps:
+To install the File Transfer, follow this steps:
 
 1. Clone this repository on your machine: 
    ```bash
-   git clone https://github.com/a9sk/cadabra
+   git clone https://github.com/a9sk/go-file-transfer
    ```
 2. Change directory into the one you just downloaded:
    ```bash
-   cd cadabra
+   cd go-file-transfer
    ```
 3. Run the setup.sh script:
    ```bash
